@@ -109,34 +109,34 @@
 
   <script>
 
-  let blogs = [];
+let blogs = [];
 
-  function llenarSelects() {
-    fetch('https://raw.githubusercontent.com/DJOYASWeb/Blog-Destacados/refs/heads/main/V1')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        blogs = data;
-        const selects = [select1, select2, select3];
-        selects.forEach(select => {
-          select.innerHTML = "";
-          blogs.forEach((blog, index) => {
-            const option = document.createElement("option");
-            option.value = index;
-            option.textContent = blog.titulo;
-            select.appendChild(option);
-          });
+function llenarSelects() {
+  fetch('./data/blogs.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      blogs = data;
+      const selects = [select1, select2, select3];
+      selects.forEach(select => {
+        select.innerHTML = "";
+        blogs.forEach((blog, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent = blog.titulo;
+          select.appendChild(option);
         });
-      })
-      .catch(error => {
-        console.error('Error al cargar el JSON externo:', error);
-        alert("No se pudo cargar el archivo de blogs destacados desde GitHub.");
       });
-  }
+    })
+    .catch(error => {
+      console.error('Error al cargar blogs.json:', error);
+      alert("No se pudo cargar el archivo de blogs destacados.");
+    });
+}
 
   window.onload = llenarSelects;
 

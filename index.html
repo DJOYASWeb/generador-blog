@@ -38,26 +38,26 @@
   <h1>💎 Generador de Blog DJOYAS</h1>
 
   <!-- ENCABEZADO -->
-  <div class="division">
-    <div class="contenido-division">
+  <div class="row">
+    <div class="col-lg-6 col-12">
       <label>📌 TÍTULO DEL BLOG:</label>
       <input type="text" id="titulo">
     </div>
-    <div class="contenido-division">
+    <div class="col-lg-6 col-12">
       <label>📆 FECHA DE PUBLICACIÓN:</label>
       <input type="text" id="fecha">
     </div>
   </div>
 
-  <div class="division pt-3">
-    <div class="contenido-division">
+  <div class="row pt-3">
+    <div class="col-lg-6 col-12">
       <label>👩‍💻 AUTOR/A:</label>
       <select id="autor">
         <option value="Sofía de DJOYAS">Sofía de DJOYAS</option>
         <option value="Camila de DJOYAS">Camila de DJOYAS</option>
       </select>
     </div>
-    <div class="contenido-division">
+    <div class="col-lg-6 col-12">
       <label>🏷️ CATEGORÍA:</label>
       <select id="categoria">
         <option value="Emprendimiento">Emprendimiento</option>
@@ -68,12 +68,12 @@
       </select>
     </div>
   </div>
-  <div class="division pt-3">
-  <div class="contenido-division">
+  <div class="row pt-3">
+    <div class="col-lg-6 col-12">
   <label>🖼️ URL DE LA IMAGEN PRINCIPAL:</label>
   <input type="text" id="imagen">
 </div>
-<div class="contenido-division">
+<div class="col-lg-6 col-12">
   <label>🔤 Texto ALT de la imagen:</label>
   <input type="text" id="altImagen">
 </div>
@@ -90,21 +90,13 @@
     <div class="row">
       <div class="col-lg-6 col-12">
         <h3>🔙 Blog Anterior</h3>
-        <label>Título:</label>
-        <input type="text" id="tituloAnterior">
-        <label>Enlace:</label>
-        <input type="text" id="urlAnterior">
-        <label>Categoría:</label>
-        <input type="text" id="categoriaAnterior">
+        <label>Seleccionar blog anterior:</label>
+        <select id="selectAnterior"></select>
       </div>
       <div class="col-lg-6 col-12">
         <h3>🔜 Blog Siguiente</h3>
-        <label>Título:</label>
-        <input type="text" id="tituloSiguiente">
-        <label>Enlace:</label>
-        <input type="text" id="urlSiguiente">
-        <label>Categoría:</label>
-        <input type="text" id="categoriaSiguiente">
+        <label>Seleccionar blog siguiente:</label>
+        <select id="selectSiguiente"></select>
       </div>
 </div>
 </section>
@@ -133,10 +125,37 @@
   <button onclick="copiarHTML()">📋 Copiar al portapapeles</button>
   <script>
 
+let navegacionBlogs = [];
+
+function cargarNavegacionSelects() {
+  fetch('./data/navegacion.json')
+    .then(res => res.json())
+    .then(data => {
+      navegacionBlogs = data;
+
+      const selectAnterior = document.getElementById("selectAnterior");
+      const selectSiguiente = document.getElementById("selectSiguiente");
+
+      data.forEach((blog, index) => {
+        const optionA = document.createElement("option");
+        optionA.value = index;
+        optionA.textContent = blog.titulo;
+        selectAnterior.appendChild(optionA);
+
+        const optionS = document.createElement("option");
+        optionS.value = index;
+        optionS.textContent = blog.titulo;
+        selectSiguiente.appendChild(optionS);
+      });
+    });
+}
+
+
+
   let blogs = [];
 
   function llenarSelects() {
- fetch('./data/blogs.json')
+    fetch('https://raw.githubusercontent.com/DJOYASWeb/Blog-Destacados/refs/heads/main/V1')
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -179,13 +198,16 @@
         return;
       }
 
-      const tituloAnterior = document.getElementById("tituloAnterior").value;
-      const urlAnterior = document.getElementById("urlAnterior").value;
-      const categoriaAnterior = document.getElementById("categoriaAnterior").value;
+const blogAnterior = navegacionBlogs[parseInt(document.getElementById("selectAnterior").value)];
+const blogSiguiente = navegacionBlogs[parseInt(document.getElementById("selectSiguiente").value)];
 
-      const tituloSiguiente = document.getElementById("tituloSiguiente").value;
-      const urlSiguiente = document.getElementById("urlSiguiente").value;
-      const categoriaSiguiente = document.getElementById("categoriaSiguiente").value;
+const tituloAnterior = blogAnterior.titulo;
+const urlAnterior = blogAnterior.url;
+const categoriaAnterior = blogAnterior.categoria;
+
+const tituloSiguiente = blogSiguiente.titulo;
+const urlSiguiente = blogSiguiente.url;
+const categoriaSiguiente = blogSiguiente.categoria;
 
       const i1 = parseInt(select1.value);
       const i2 = parseInt(select2.value);
@@ -343,7 +365,10 @@ ${destacadosHTML}
         .catch(err => alert("Error al copiar: " + err));
     }
 
-    window.onload = llenarSelects;
+    window.onload = function () {
+  llenarSelects();
+  cargarNavegacionSelects(); // este es nuevo
+};
   </script>
 
 </body>

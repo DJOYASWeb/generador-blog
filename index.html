@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Generador Blog DJOYAS</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <style>
     body { font-family: Arial, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; }
     label { font-weight: bold; display: block; margin-top: 15px; }
-    input, textarea, select { width: 100%; padding: 8px; margin-top: 4px; border-radius: 6px; border: 1px solid #ccc; height: auto; }
+    input, textarea, select { width: 100%; padding: 8px; margin-top: 4px; border-radius: 6px; border: 1px solid #ccc; height: 3rem; }
     button {
       margin-top: 20px; padding: 10px 20px;
       font-size: 16px; cursor: pointer; background: #000; color: #fff; border: none;
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="division">
+  <div class="division pt-3">
     <div class="contenido-division">
       <label>👩‍💻 AUTOR/A:</label>
       <select id="autor">
@@ -68,40 +68,51 @@
       </select>
     </div>
   </div>
-
+  <div class="division pt-3">
+  <div class="contenido-division">
   <label>🖼️ URL DE LA IMAGEN PRINCIPAL:</label>
   <input type="text" id="imagen">
-
+</div>
+<div class="contenido-division">
   <label>🔤 Texto ALT de la imagen:</label>
   <input type="text" id="altImagen">
-
+</div>
+</div>
   <!-- CUERPO -->
-  <label>💎 CUERPO DEL BLOG:</label>
-  
-<button onclick="window.open('/generador-blog/redactor.html', '_blank')">
-  Ir al Redactor
-</button>
+   <section class="cuerpo py-3">
+    <label>💎 CUERPO DEL BLOG:</label>
+    <textarea id="cuerpo" rows="6"></textarea>
+   </section>
 
-  <textarea id="cuerpo" rows="6"></textarea>
 
   <!-- NAVEGACIÓN -->
-  <h3>🔙 Blog Anterior</h3>
-  <label>Título:</label>
-  <input type="text" id="tituloAnterior">
-  <label>Enlace:</label>
-  <input type="text" id="urlAnterior">
-  <label>Categoría:</label>
-  <input type="text" id="categoriaAnterior">
+   <section class="navegacion py-5">
+    <div class="row">
+      <div class="col-lg-6 col-12">
+        <h3>🔙 Blog Anterior</h3>
+        <label>Título:</label>
+        <input type="text" id="tituloAnterior">
+        <label>Enlace:</label>
+        <input type="text" id="urlAnterior">
+        <label>Categoría:</label>
+        <input type="text" id="categoriaAnterior">
+      </div>
+      <div class="col-lg-6 col-12">
+        <h3>🔜 Blog Siguiente</h3>
+        <label>Título:</label>
+        <input type="text" id="tituloSiguiente">
+        <label>Enlace:</label>
+        <input type="text" id="urlSiguiente">
+        <label>Categoría:</label>
+        <input type="text" id="categoriaSiguiente">
+      </div>
+</div>
+</section>
 
-  <h3>🔜 Blog Siguiente</h3>
-  <label>Título:</label>
-  <input type="text" id="tituloSiguiente">
-  <label>Enlace:</label>
-  <input type="text" id="urlSiguiente">
-  <label>Categoría:</label>
-  <input type="text" id="categoriaSiguiente">
+
 
   <!-- DESTACADOS -->
+   <section class="destacados py-5">
   <h3>🌟 Blogs Destacados</h3>
   <label>Destacado 1</label>
   <select id="select1"></select>
@@ -109,43 +120,47 @@
   <select id="select2"></select>
   <label>Destacado 3</label>
   <select id="select3"></select>
-
+</section>
+<div class="generar py-3">
   <button onclick="generarHTML()">Generar HTML</button>
-  <button onclick="copiarHTML()">📋 Copiar al portapapeles</button>
+</div>
 
+
+<section class="resultado pt-5">
   <h2>📋 Código generado:</h2>
   <pre id="resultado"></pre>
-
+</section>
+  <button onclick="copiarHTML()">📋 Copiar al portapapeles</button>
   <script>
 
-let blogs = [];
+  let blogs = [];
 
-function llenarSelects() {
-  fetch('./data/blogs.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      blogs = data;
-      const selects = [select1, select2, select3];
-      selects.forEach(select => {
-        select.innerHTML = "";
-        blogs.forEach((blog, index) => {
-          const option = document.createElement("option");
-          option.value = index;
-          option.textContent = blog.titulo;
-          select.appendChild(option);
+  function llenarSelects() {
+    fetch('https://raw.githubusercontent.com/DJOYASWeb/Blog-Destacados/refs/heads/main/V1')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        blogs = data;
+        const selects = [select1, select2, select3];
+        selects.forEach(select => {
+          select.innerHTML = "";
+          blogs.forEach((blog, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = blog.titulo;
+            select.appendChild(option);
+          });
         });
+      })
+      .catch(error => {
+        console.error('Error al cargar el JSON externo:', error);
+        alert("No se pudo cargar el archivo de blogs destacados desde GitHub.");
       });
-    })
-    .catch(error => {
-      console.error('Error al cargar blogs.json:', error);
-      alert("No se pudo cargar el archivo de blogs destacados.");
-    });
-}
+  }
 
   window.onload = llenarSelects;
 

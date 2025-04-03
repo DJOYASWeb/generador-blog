@@ -155,7 +155,7 @@ function cargarNavegacionSelects() {
   let blogs = [];
 
   function llenarSelects() {
-    fetch('https://raw.githubusercontent.com/DJOYASWeb/Blog-Destacados/refs/heads/main/V1')
+    fetch('./data/blogs.json')
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

@@ -5,22 +5,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Conversor DJOYAS 🛠️ Listas OK ✅ FINAL</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <style>
     body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; }
-    textarea, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; }
+    textarea, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px;   border-radius: 6px;}
+    textarea { height: 350px; border-radius: 10px;}
+    
     button { background-color: #000; color: white; border: none; cursor: pointer; }
-    pre { background: #f4f4f4; padding: 20px; border: 1px solid #ccc; white-space: pre-wrap; margin-top: 20px; }
+    pre { background: #f4f4f4; padding: 20px; border: 1px solid #ccc; white-space: pre-wrap; margin-top: 20px;   border-radius: 6px; }
+    .alinear{
+display: flex;
+align-items: center;
+    }
+    .btn-copy {
+    background-color: #fff;
+    color: #323232;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
   </style>
 </head>
 <body>
-<h1>💎 Conversor DJOYAS - LISTAS FUNCIONALES</h1>
+<h1>💎 Conversor de BLOGS</h1>
 
 <label for="inputTexto">📄 Pega el cuerpo del blog (texto plano):</label>
 <textarea id="inputTexto" rows="30" placeholder="Pega aquí tu contenido tal como lo escribes..."></textarea>
 
 <button onclick="convertirHTML()">Convertir a HTML</button>
+<hr class="pt-4">
+<div class="row alinear mt-5">
+  <div class="col-lg-6 col-12">
+    <h2>📋 Formato  HTML:</h2>
+  </div>
+  <div class="col-lg-6 col-12">
+<button class="btn-copy" onclick="copiarResultado()">📋 Copiar HTML</button>
+  </div>
+</div>
 
-<h2>📋 Resultado:</h2>
+
+
 <pre id="resultadoHTML"></pre>
 
 <script>
@@ -74,17 +97,25 @@ function convertirHTML() {
       return;
     }
 
-    const encabezadoMatch = linea.match(/^(\d+)\.\s+(.*)/);
-    if (encabezadoMatch) {
-      flushBuffer();
-      const numero = encabezadoMatch[1];
-      const tituloPlano = encabezadoMatch[2].replace(/[.:]$/, '');
-      const id = slugify(tituloPlano);
-      const tituloCompleto = `${numero}. ${encabezadoMatch[2]}`;
-      secciones.push({ id, titulo: tituloCompleto });
-      contenido += `<h2 id="${id}" class="blog-h2"><span class="blog-h2">${numero}. </span>${encabezadoMatch[2]}</h2>\n`;
-      return;
-    }
+    const h2Match = linea.match(/^(\d+)\.\s+(.*)/);
+const h3Match = linea.match(/^(\d+\.\d+)\s+(.*)/);
+
+if (h3Match) {
+  flushBuffer();
+  const id = slugify(h3Match[2]);
+  contenido += `<h3 id="${id}" class="blog-h3">${h3Match[1]} ${h3Match[2]}</h3>\n`;
+  return;
+}
+
+if (h2Match) {
+  flushBuffer();
+  const id = slugify(h2Match[2]);
+  const tituloCompleto = `${h2Match[1]}. ${h2Match[2]}`;
+  secciones.push({ id, titulo: tituloCompleto });
+  contenido += `<h2 id="${id}" class="blog-h2"><span class="blog-h2">${h2Match[1]}. </span>${h2Match[2]}</h2>\n`;
+  return;
+}
+
 
     if (/¿Qué joyas usar\?|Consejos de estilo/i.test(linea)) {
       flushBuffer();
@@ -119,6 +150,13 @@ function convertirHTML() {
 
   html += contenido + '</section>';
   document.getElementById("resultadoHTML").textContent = html;
+}
+
+function copiarResultado() {
+  const resultado = document.getElementById("resultadoHTML").textContent;
+  navigator.clipboard.writeText(resultado)
+    .then(() => alert("✅ HTML copiado al portapapeles"))
+    .catch(err => alert("❌ Error al copiar: " + err));
 }
 </script>
 
